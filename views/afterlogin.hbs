@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+        integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+</head>
+<script>
+    function togglefunction() {
+        var x = document.getElementById("navbar");
+        if (x.style.display == "block") {
+            x.style.display = "none";
+        }
+        else {
+            x.style.display = "block";
+        }
+    }
+
+
+    
+</script>
+<style>
+    :root {
+        --green: rgb(117, 19, 117);
+        --black: #fff;
+        --light-color: #666;
+        --box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+
+
+    * {
+        font-family: 'Nunito', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        text-decoration: none;
+        outline: none;
+        border: none;
+        transition: all .2s linear;
+
+    }
+
+    section {
+        padding: 2rem 9%;
+        margin-top: 8rem;
+
+    }
+
+    .cont {
+
+        margin: auto;
+        /* border: 1px solid green;*/
+        /*width: 60%;*/
+        text-align: center;
+        /*background: #fff;*/
+        margin-bottom: 2rem;
+    }
+
+    html {
+        font-size: 62.5%;
+        overflow-x: hidden;
+        scroll-padding-top: 5.5rem;
+        scroll-behavior: smooth;
+    }
+
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: black;
+        padding: 2rem 9%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+        box-shadow: var(--box-shadow);
+    }
+
+    header .logo {
+        color: var(--black);
+        font-size: 2.5rem;
+        font-weight: bolder;
+
+    }
+
+    header .logo i {
+        color: var(--green);
+
+    }
+
+    header .navbar a {
+        font-weight: bold;
+        font-size: 1.7rem;
+        border-radius: .5rem;
+        padding: .5rem 1.5rem;
+        color: var(--light-color);
+    }
+
+    header .navbar a.active,
+    header .navbar a:hover {
+        color: black;
+        background: #fff;
+
+    }
+
+    header .icons i,
+    header .icons a {
+        cursor: pointer;
+        margin-left: .5rem;
+        height: 4.5rem;
+        line-height: 4.5rem;
+        width: 4.5rem;
+        text-align: center;
+        font-size: 1.7rem;
+        color: #fff;
+        /* border-radius: 50%;*/
+        /* background: #eee;*/
+    }
+
+    header .icons i:hover,
+    header .icons a:hover {
+        /* color: #fff;
+    background: var(--green);*/
+        transform: rotate(360deg);
+    }
+
+    header .icons #menubars {
+        display: none;
+
+    }
+    section a{
+        color: black;
+    }
+
+    section .owl-carousel .item {
+        width: 100%;
+        height: 50rem;
+
+    }
+
+    section .owl-carousel .item .item-title {
+        padding: 30rem 4rem;
+
+        font-size: 2rem;
+        color: #fff;
+    }
+
+    section .owl-carousel {
+        box-shadow: var(--box-shadow);
+        padding: 1.5rem;
+    }
+
+    section .section-left .blog {
+        display: flex;
+        margin: 1rem 0rem;
+        box-shadow: var(--box-shadow);
+        padding: 1.5rem;
+
+    }
+
+    section .section-left .blog .blog-img {
+        width: 50%;
+        height: 15rem;
+    }
+
+    section .section-left .blog .blog-img #img {
+        width: 100%;
+        height: 100%;
+    }
+
+    section .section-left .blog .blogcontaint {
+        margin: 0rem 1rem;
+        font-size: 1.5rem;
+    }
+
+    /*.section-left{
+    width: 90%;
+}*/
+    #imgk {
+        width: 100%;
+
+    }
+
+    .section-box .box-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+        /*width: 90%;*/
+    }
+
+    .section-box .box-container .box {
+        padding: 1.5rem;
+        background: #fff;
+        border-radius: 0.5rem;
+        /*border: .1rem solid rgba(0, 0, 0, .2);*/
+        box-shadow: var(--box-shadow);
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .section-box .box-container .box img {
+        height: 17rem;
+
+    }
+
+    .section-box .box-container .box p {
+        font-size: 1.5rem;
+        margin-top: 0.5rem;
+        text-align: left;
+    }
+
+    section .contact {
+        box-shadow: var(--box-shadow);
+        padding: 1rem;
+        margin-top: 1rem;
+
+    }
+
+   /* section .contact .contact-form {
+        background-image: url('public/image-6.jpg');
+        background-size: cover;
+
+    }*/
+
+    section .contact .contact-form .form form {
+        display: flex;
+        flex-direction: column;
+        padding: 4rem;
+
+
+    }
+
+    section .contact .contact-form .form form label {
+        margin-top: 1.5rem;
+        font-size: 2rem;
+    }
+
+    section .contact .contact-form .form form input {
+        font-size: 1.5rem;
+        padding: 1rem;
+        margin-top: 1rem;
+        border: 0.1rem solid #fff;
+        box-shadow: var(--box-shadow);
+        border-radius: 1rem;
+
+    }
+
+    section .contact .contact-form .form {
+        width: 40%;
+    }
+
+    #message {
+        margin-top: 1rem;
+        padding: 1rem 1rem;
+        border: 0.1rem solid #fff;
+        box-shadow: var(--box-shadow);
+        border-radius: 1rem;
+    }
+
+    section .contact .contact-form .form form button {
+        margin-top: 1.5rem;
+        width: fit-content;
+        padding: 1rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        border: 0.1rem solid #fff;
+        box-shadow: var(--box-shadow);
+        border-radius: 1rem;
+    }
+
+    footer {
+        background-color: black;
+        color: #fff;
+    }
+
+    footer .footer-1 {
+        display: flex;
+        padding: 2rem 9%;
+        justify-content: space-between;
+    }
+
+    footer .footer-1 .blogging h1 {
+        font-size: 2.5rem;
+    }
+
+    footer .footer-1 .blogging p {
+        font-size: 1.5rem;
+        padding: 1rem 0rem;
+    }
+
+    footer .last {
+        display: flex;
+        padding: 2rem 9%;
+        font-size: 1.5rem;
+        gap: 1.5rem;
+    }
+
+    footer .footer-1 .follow-us {
+        margin-right: 10rem;
+
+    }
+
+    footer .footer-1 .follow-us i {
+        font-size: 1.5rem;
+        padding: 1rem 0rem;
+        cursor: pointer;
+
+    }
+
+    footer .footer-1 .follow-us #twitter {
+        padding-left: 1rem;
+    }
+
+    .post-detail {
+        margin-top: 1.5rem;
+    }
+
+    @media(max-width:991px) {
+        html {
+            font-size: 55%;
+        }
+
+        header {
+            padding: 1rem 2rem;
+        }
+
+        section {
+            padding: 2rem;
+        }
+    }
+
+    @media(max-width:772px) {
+        header .icons #menubars {
+            display: inline-block;
+        }
+
+        header .navbar {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 0.1rem solid rgba(0, 0, 0, .2);
+            border-bottom: .1rem solid rgba(0, 0, 0, .2);
+            padding: 1rem;
+            /*clip-path: polygon(0 0,100% 0,100% 0, 0 0);*/
+            display: none;
+            text-align: center;
+        }
+
+        .pagination {
+            top: 96rem;
+        }
+
+        header .navbar a {
+            display: block;
+            padding: 1.5rem;
+            margin: 1rem;
+            font-size: 2rem;
+            background: #eee;
+
+
+        }
+
+        section .owl-carousel .item {
+            width: 100%;
+            height: 25rem;
+
+        }
+
+        .section-left {
+            width: 100%;
+        }
+
+        section .section-left .blog .blog-img {
+            width: 95%;
+            height: 15rem;
+        }
+
+        section .section-left .blog .blogcontaint {
+            margin: 1rem;
+            font-size: 1.5rem;
+            width: 95%;
+        }
+
+        section .contact .contact-form .form {
+            width: 90%;
+        }
+
+        footer .footer-1 {
+            display: flex;
+            flex-direction: column;
+        }
+
+        section .owl-carousel .item .item-title {
+            padding: 10rem 2rem;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+    }
+</style>
+
+<body>
+
+    <header>
+        <a href="#" class="logo"></i>Blogging</a>
+        <nav class="navbar" id="navbar">
+            <a href="/home">home</a>
+            <a href="#latest-blog">latest blog</a>
+            <a href="#featured-blog">featured blog</a>
+            <a href="/article">write an article</a>
+          <!--  <form action="/search">
+            <input type="text" placeholder="search here">
+            <button>search</button>
+
+            </form> -->
+
+      
+            <a href="/profile"> {{username}}</a>
+            <a href="/logout">logout</a>
+        </nav>
+        <div class="icons">
+            <i class="fas fa-bars" id="menubars" onclick="togglefunction()" onmouseleave="removetoggle()"></i>
+
+        </div>
+    </header>
+    
+    <section>
+        <div class="owl-carousel owl-theme">
+            {{#each carouselArticles}}
+             <a href="/{{this.urlTitle}}">
+            <div class="item" style="background-image: url('{{this.postimage}}'); background-size: cover;">
+                <div class="item-title" data-aos="slide-up">
+                   
+                        <p>{{this.title}}</p>
+                   
+                    <div class="post-detail">
+                        <p>{{formatDate this.createdAt}}</p>
+                        <p>Posted by {{this.author.username}}</p>
+                    </div>
+                </div>
+            </div>
+            </a>
+            {{/each}}
+        </div>
+    </section>
+
+    <section id="latest-blog">
+       
+        <div class="section-left">
+            <h1>Latest Blog</h1>
+            {{#each latestArticle}}
+             <a href="/{{this.urlTitle}}">
+            <div class="blog" data-aos="slide-up">
+                <div class="blog-img">
+                    <img id="img" src="{{this.postimage}}" alt="">
+                </div>
+                <div class="blogcontaint">
+                    <p>{{this.title}}</p>
+                    <div class="post-detail">
+                        <p>{{formatDate this.createdAt}}</p>
+                        <p>Posted by {{this.author.username}}</p>
+                    </div>
+                </div>
+            </div>
+            </a>
+            {{/each}}
+        </div>
+      
+    </section>
+
+    <section class="section-box" id="featured-blog">
+        <h1>Featured Blog</h1>
+        <div class="box-container">
+            {{#each featuredArticles}}
+             <a href="/{{this.urlTitle}}">
+            <div class="box" data-aos="slide-up">
+                <img id="imgk" src="{{this.postimage}}" alt="">
+                <p>{{this.title}}</p>
+                <div class="post-detail">
+                    <p>{{formatDate this.createdAt}}</p>
+                    <p>Posted by {{this.author.username}}</p>
+                </div>
+            </div>
+            </a>
+            {{/each}}
+        </div>
+    </section>
+
+
+
+    <section>
+        <h1>contact us</h1>
+        <div class="contact">
+            <div class="contact-form">
+                <div class="form">
+                    <form action="#" data-aos="slide-up">
+                        <label for="name"> full name</label>
+                        <input type="text" placeholder="full name" required>
+                        <label for="email">email</label>
+                        <input type="text" placeholder="email" required>
+                        <label for="message">message</label>
+                        <textarea name="" placeholder="enter your message" id="message" cols="30" rows="10"
+                            required></textarea>
+                        <button>send message</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-1">
+            <div class="blogging">
+                <h1>Blogging.com</h1>
+                <p>The reader's choice</p>
+                <p>Turn your ideology into article</p>
+
+            </div>
+            <div class="follow-us">
+                <h1>follow us on</h1>
+                <i class="fa-brands fa-instagram"></i>
+                <i id="twitter" class="fa-brands fa-twitter"></i>
+
+            </div>
+        </div>
+        <div class="last">
+            <h>Copyright 2023 bloging.com </h>
+            <p>made with❤️ by Saurabh kumar</p>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+        integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            autoplay: true,
+            items: 1,
+            autoplayTimeout: 2000,
+            /* responsive:{
+                 0:{
+                     items:1
+                 },
+                 600:{
+                     items:3
+                 },
+                 1000:{
+                     items:5
+                 }
+             }*/
+        })
+
+    </script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            offset: 300,
+            duration: 1000,
+        });
+    </script>
+</body>
+
+</html>

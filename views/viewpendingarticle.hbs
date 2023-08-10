@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js"></script>
+
+</head>
+<script>
+    function togglefunction() {
+        var x = document.getElementById("navbar");
+        if (x.style.display == "block") {
+            x.style.display = "none";
+        }
+        else {
+            x.style.display = "block";
+        }
+    }
+    function displayFunction() {
+        var x = document.getElementById("comment-view");
+        if (x.style.display == "block") {
+            x.style.display = "none";
+        }
+        else {
+            x.style.display = "block";
+        }
+    }
+
+    /* $(document).on('click', '.like-btn', function (event) {
+         event.preventDefault();
+         const postId = $(this).data('post-id');
+         console.log(postId);
+         $.ajax({
+             url: `/like-post/${postId}`,
+             method: 'POST',
+             success: function (response) {
+                 const likesCount = response.likesCount;
+                 $(`.like-btn[data-post-id="${postId}"]`).html(`${likesCount} <i class="fa-solid fa-thumbs-up"></i>`);
+                 console.log(likesCount);
+             },
+             error: function (error) {
+                 console.error(error);
+             }
+         });
+     });*/
+    $(document).ready(function () {
+        $(".like-btn").click(function (event) {
+            event.preventDefault();
+            const postId = $(this).data("post-id");
+
+            // Check if the user is logged in
+            const username = "{{username}}"; // Get the logged-in username from the server-side variable
+
+            if (!username) {
+                // User is not logged in, redirect to login page
+                const currentURL = window.location.href;
+                const loginURL = "/login"; // Change this to the actual login URL
+                window.location.href = `${loginURL}?redirect=${encodeURIComponent(currentURL)}`;
+                return;
+            }
+
+            // User is logged in, proceed with the like action
+            $.ajax({
+                url: `/like-post/${postId}`,
+                method: "POST",
+                success: function (response) {
+                    const likesCount = response.likesCount;
+                    $(`.like-btn[data-post-id="${postId}"]`).html(
+                        `${likesCount} <i class="fa-solid fa-thumbs-up"></i>`
+                    );
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        });
+    });
+    $(document).ready(function () {
+        $(".comment-form").submit(function (event) {
+            event.preventDefault();
+            // var formData = $(this).serialize(); 
+            $.ajax({
+                type: "POST",
+                url: "/comment",
+                data: {
+                    comment: $(this).find('input[name="comment"]').val(),
+                    postid: $(this).find('input[name="postid"]').val(),
+                },
+                success: function (response) {
+                    var existingComment = $("#comment-add-" + response.postid).find('.user-comment[data-postid="' + response.postid + '"]');
+                    if (existingComment.length === 0) {
+                        var commentHtml = '<div class="user-comment">' +
+                            '<div class="comment-profile">' +
+                            '<i class="fa-regular fa-user"></i>' +
+                            '</div>' +
+                            '<div class="user-commentdetail">' +
+                            '<div class="user-commentusername">' +
+                            '<span>' + response.username + '</span>' +
+                            '</div>' +
+                            '<div class="user-commentcontent">' +
+                            '<p>' + response.comment + '</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+
+                        $("#comment-add-" + response.postid).prepend(commentHtml);
+                    }
+                    $("#comment-form-" + response.postid)[0].reset();
+                },
+                error: function () {
+                    alert("Error adding comment");
+                }
+            });
+            return false;
+        });
+    });
+
+
+</script>
+<style>
+    :root {
+        --green: rgb(117, 19, 117);
+        --black: #fff;
+        --light-color: #666;
+        --box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+
+
+    * {
+        font-family: 'Nunito', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        text-decoration: none;
+        outline: none;
+        border: none;
+        transition: all .2s linear;
+
+    }
+
+    section {
+        padding: 2rem 9%;
+        margin-top: 8rem;
+
+    }
+
+    .cont {
+
+        margin: auto;
+        /* border: 1px solid green;*/
+        /*width: 60%;*/
+        text-align: center;
+        /*background: #fff;*/
+        margin-bottom: 2rem;
+    }
+
+
+    html {
+        font-size: 62.5%;
+        overflow-x: hidden;
+        scroll-padding-top: 5.5rem;
+        scroll-behavior: smooth;
+    }
+
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: black;
+        padding: 2rem 9%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+        box-shadow: var(--box-shadow);
+    }
+
+    header .logo {
+        color: var(--black);
+        font-size: 2.5rem;
+        font-weight: bolder;
+
+    }
+
+    header .logo i {
+        color: var(--green);
+
+    }
+
+    header .navbar a {
+        font-weight: bold;
+        font-size: 1.7rem;
+        border-radius: .5rem;
+        padding: .5rem 1.5rem;
+        color: var(--light-color);
+    }
+
+    header .navbar a.active,
+    header .navbar a:hover {
+        color: black;
+        background: #fff;
+
+    }
+
+    header .icons i,
+    header .icons a {
+        cursor: pointer;
+        margin-left: .5rem;
+        height: 4.5rem;
+        line-height: 4.5rem;
+        width: 4.5rem;
+        text-align: center;
+        font-size: 1.7rem;
+        color: #fff;
+        /* border-radius: 50%;*/
+        /* background: #eee;*/
+    }
+
+    header .icons i:hover,
+    header .icons a:hover {
+        /* color: #fff;
+    background: var(--green);*/
+        transform: rotate(360deg);
+    }
+
+    header .icons #menubars {
+        display: none;
+
+    }
+
+    section .blogpost {
+        width: 100%;
+    }
+
+    section .blogpost .blogpost-image {
+        width: 100%;
+        height: 40rem;
+        margin-top: 1.5rem;
+    }
+
+    section .blogpost .blogpost-image img {
+        height: 100%;
+        width: 60rem;
+    }
+
+    section .blogpost .blogpost-title {
+        font-size: 2.5rem;
+        padding: 1.5rem 0rem;
+        width: 90%;
+    }
+
+    section .blogpost .blogpost-detail {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    section .blogpost .blogpost-content {
+        margin-top: 1.5rem;
+    }
+
+    section .blogpost .blogpost-content p {
+        font-size: 2rem;
+    }
+
+
+
+    section .blogpost .blogpost-interaction i {
+        font-size: 2rem;
+        padding: 2rem 0rem;
+        cursor: pointer;
+
+    }
+
+    section .blogpost .interactions-comments {
+        font-size: 2rem;
+        padding: 0.6rem 0rem;
+
+    }
+
+    section .like-btn {
+        font-size: 2rem;
+        background-color: #fff;
+    }
+
+    section .blogpost .blogpost-interaction span {
+        font-size: 1.7rem;
+        padding-left: 1rem;
+    }
+
+    section .blogpost .comment-form {
+        display: flex;
+        margin-top: 1rem;
+    }
+
+    section .blogpost .comment-form .comment-profile {
+        font-size: 3rem;
+        border-radius: 50%;
+
+    }
+
+    section .blogpost .user-comment .comment-profile {
+        font-size: 3rem;
+        border-radius: 50%;
+
+    }
+
+    section .blogpost .comment-form form {
+        padding: 0rem 1rem;
+    }
+
+    section .blogpost .comment-form form input {
+        font-size: 1rem;
+        padding: 1rem;
+        border: 0.1rem solid black;
+        border-radius: 1rem;
+
+    }
+
+    #share {
+        padding-left: 2rem;
+    }
+
+    footer {
+        background-color: black;
+        color: #fff;
+    }
+
+    footer .footer-1 {
+        display: flex;
+        padding: 2rem 9%;
+        justify-content: space-between;
+    }
+
+    footer .footer-1 .blogging h1 {
+        font-size: 2.5rem;
+    }
+
+    footer .footer-1 .blogging p {
+        font-size: 1.5rem;
+        padding: 1rem 0rem;
+    }
+
+    footer .last {
+        display: flex;
+        padding: 2rem 9%;
+        font-size: 1.5rem;
+        gap: 1.5rem;
+    }
+
+    footer .footer-1 .follow-us {
+        margin-right: 10rem;
+
+    }
+
+    footer .footer-1 .follow-us i,
+    span {
+        font-size: 1.5rem;
+        padding: 1rem 0rem;
+        cursor: pointer;
+
+    }
+
+    footer .footer-1 .follow-us #twitter {
+        padding-left: 1rem;
+    }
+
+    #commentpostbutton {
+        font-size: 2rem;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .user-comment {
+        display: flex;
+        margin-top: 2rem;
+        align-items: center;
+    }
+
+    .user-commentdetail {
+        margin-left: 1rem;
+        width: 20%;
+    }
+
+    .user-commentcontent {
+        margin-top: 0.6rem;
+        font-size: 1.5rem;
+    }
+
+    #comment-view {
+        display: none;
+    }
+
+    section .section-left .blog {
+        display: flex;
+        margin: 1rem 0rem;
+        box-shadow: var(--box-shadow);
+        padding: 1.5rem;
+
+    }
+
+    section .section-left .blog .blog-img {
+        width: 50%;
+        height: 15rem;
+    }
+
+    section .section-left .blog .blog-img #img {
+        width: 100%;
+        height: 100%;
+    }
+
+    section .section-left .blog .blogcontaint {
+        margin: 0rem 1rem;
+        font-size: 1.5rem;
+    }
+
+    /*.section-left{
+    width: 90%;
+}*/
+    #imgk {
+        width: 100%;
+
+    }
+
+    .section-box .box-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+        /*width: 90%;*/
+    }
+
+    .section-box .box-container .box {
+        padding: 1.5rem;
+        background: #fff;
+        border-radius: 0.5rem;
+        /*border: .1rem solid rgba(0, 0, 0, .2);*/
+        box-shadow: var(--box-shadow);
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .section-box .box-container .box img {
+        height: 17rem;
+
+    }
+
+    .section-box .box-container .box p {
+        font-size: 1.5rem;
+        margin-top: 0.5rem;
+        text-align: left;
+    }
+     section a{
+        color: black;
+    }
+
+
+
+
+
+
+
+
+
+    @media(max-width:991px) {
+        html {
+            font-size: 55%;
+        }
+
+        header {
+            padding: 1rem 2rem;
+        }
+
+        section {
+            padding: 2rem;
+        }
+    }
+
+    @media(max-width:772px) {
+        header .icons #menubars {
+            display: inline-block;
+        }
+
+        header .navbar {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 0.1rem solid rgba(0, 0, 0, .2);
+            border-bottom: .1rem solid rgba(0, 0, 0, .2);
+            padding: 1rem;
+            /*clip-path: polygon(0 0,100% 0,100% 0, 0 0);*/
+            display: none;
+            text-align: center;
+        }
+
+        .pagination {
+            top: 96rem;
+        }
+
+        header .navbar a {
+            display: block;
+            padding: 1.5rem;
+            margin: 1rem;
+            font-size: 2rem;
+            background: #eee;
+
+
+        }
+
+        section .owl-carousel .item {
+            width: 100%;
+            height: 25rem;
+
+        }
+
+        .section-left {
+            width: 100%;
+        }
+
+        section .section-left .blog .blog-img {
+            width: 95%;
+            height: 15rem;
+        }
+
+        section .section-left .blog .blogcontaint {
+            margin: 1rem;
+            font-size: 1.5rem;
+            width: 95%;
+        }
+
+        section .contact .contact-form .form {
+            width: 90%;
+        }
+
+        footer .footer-1 {
+            display: flex;
+            flex-direction: column;
+        }
+
+        section .owl-carousel .item .item-title {
+            padding: 10rem 2rem;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        section .blogpost .blogpost-image img {
+            width: 100%;
+        }
+
+        .user-commentdetail {
+            margin-left: 1rem;
+            width: auto;
+        }
+
+    }
+</style>
+
+<body>
+    <header>
+        <a href="#" class="logo"></i>Blogging</a>
+        <nav class="navbar" id="navbar">
+            <a href="/admin">home</a>
+            <a href="">{{username}}</a>
+
+            <a href="/logout">logout</a>
+          
+        </nav>
+        <div class="icons">
+            <i class="fas fa-bars" id="menubars" onclick="togglefunction()" onmouseleave="removetoggle()"></i>
+
+        </div>
+    </header>
+    <section>
+        <div class="blogpost">
+            <div class="blogpost-title">
+                <h1>{{ article.title }}</h1>
+            </div>
+            <div class="blogpost-detail">
+                <p>{{ formatDate article.createdAt }}</p>
+                <p>posted by {{ article.author.username }}</p>
+            </div>
+            <div class="blogpost-image">
+                <img src="{{ article.postimage }}" alt="">
+            </div>
+            <div class="blogpost-content">
+               <p> {{ article.article }}</p>
+            </div>
+
+            <div class="blogpost-interaction">
+                <button class="like-btn" data-post-id="{{article._id}}"> {{ article.likes.length }} <i
+                        class="fa-solid fa-thumbs-up"></i></button>
+                <span class="views-count">{{ article.views }} Views</span>
+
+
+            </div>
+            <div class="interactions-comments" id="comments" onclick="displayFunction()">
+                <i class="fa-solid fa-comments"><span>COMMENTS</span></i>
+            </div>
+            <div id="comment-view">
+                <div class="comment-form">
+                    <div class="comment-profile">
+                        <i class="fa-regular fa-user"></i>
+
+                    </div>
+                    <form class="comment-form" id="comment-form-{{article._id}}">
+                        <input type="text" name="comment" placeholder="post a comment" required>
+                        <input type="hidden" name="postid" value="{{article._id}}">
+                        <button id="commentpostbutton">post</button>
+                    </form>
+                </div>
+                <div class="comment-add" id="comment-add-{{article._id}}"></div>
+                {{#each article.comments}}
+                <div class="user-comment">
+                    <div class="comment-profile">
+                        <i class="fa-regular fa-user"></i>
+
+                    </div>
+                    <div class="user-commentdetail">
+                        <div class="user-commentusername">
+                            <span>{{this.author.username}}</span>
+
+                        </div>
+                        <div class="user-commentcontent">
+                            <p>{{this.comment}}</p>
+
+                        </div>
+                        <div class="user-commentdate">
+                            <p>{{formatDate this.createdAt}}</p>
+
+                        </div>
+                    </div>
+
+                </div>
+                {{/each}}
+            </div>
+
+
+
+        </div>
+    </section>
+   
+    <footer>
+        <div class="footer-1">
+            <div class="blogging">
+                <h1>Blogging.com</h1>
+                <p>The reader's choice</p>
+                <p>Turn your ideology into article</p>
+
+            </div>
+            <div class="follow-us">
+                <h1>follow us on</h1>
+                <i class="fa-brands fa-instagram"></i>
+                <i id="twitter" class="fa-brands fa-twitter"></i>
+
+            </div>
+        </div>
+        <div class="last">
+            <h>Copyright 2023 bloging.com </h>
+            <p>made with❤️ by Saurabh kumar</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

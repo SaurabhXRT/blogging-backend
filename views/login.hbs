@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+</head>
+<script>
+    function togglefunction() {
+        var x = document.getElementById("navbar");
+        if (x.style.display == "block") {
+            x.style.display = "none";
+        }
+        else {
+            x.style.display = "block";
+        }
+    }
+    function removetoggle() {
+        var x = document.getElementById("navbar")
+        if (x.style.display == "block") {
+            x.style.display = "none";
+        }
+    }
+</script>
+<style>
+    :root {
+        --green: rgb(117, 19, 117);
+        --black: #fff;
+        --light-color: #666;
+        --box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+
+
+    * {
+        font-family: 'Nunito', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        text-decoration: none;
+        outline: none;
+        border: none;
+        transition: all .2s linear;
+
+    }
+
+    section {
+        padding: 2rem 9%;
+        margin-top: 8rem;
+
+    }
+
+    .cont {
+
+        margin: auto;
+        /* border: 1px solid green;*/
+        /*width: 60%;*/
+        text-align: center;
+        /*background: #fff;*/
+        margin-bottom: 2rem;
+    }
+
+
+    html {
+        font-size: 62.5%;
+        overflow-x: hidden;
+        scroll-padding-top: 5.5rem;
+        scroll-behavior: smooth;
+    }
+
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: black;
+        padding: 2rem 9%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+        box-shadow: var(--box-shadow);
+    }
+
+    header .logo {
+        color: var(--black);
+        font-size: 2.5rem;
+        font-weight: bolder;
+
+    }
+
+    header .logo i {
+        color: var(--green);
+
+    }
+
+    header .navbar a {
+        font-weight: bold;
+        font-size: 1.7rem;
+        border-radius: .5rem;
+        padding: .5rem 1.5rem;
+        color: var(--light-color);
+    }
+
+    header .navbar a.active,
+    header .navbar a:hover {
+        color: black;
+        background: #fff;
+
+    }
+
+    header .icons i,
+    header .icons a {
+        cursor: pointer;
+        margin-left: .5rem;
+        height: 4.5rem;
+        line-height: 4.5rem;
+        width: 4.5rem;
+        text-align: center;
+        font-size: 1.7rem;
+        color: #fff;
+        /* border-radius: 50%;*/
+        /* background: #eee;*/
+    }
+
+    header .icons i:hover,
+    header .icons a:hover {
+        /* color: #fff;
+    background: var(--green);*/
+        transform: rotate(360deg);
+    }
+
+    header .icons #menubars {
+        display: none;
+
+    }
+
+    section .login form {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    section .login {
+        width: 60%;
+        margin: auto;
+        padding: 2rem;
+        background-color: #fff;
+        box-shadow: var(--box-shadow);
+    }
+
+    section .login form label {
+        font-size: 2rem;
+
+        margin-top: 1rem;
+    }
+
+    section .login form input {
+        padding: 1.5rem;
+        font-size: 1rem;
+        border: 0.1rem solid black;
+        border-radius: 1rem;
+        margin-top: 1rem;
+    }
+
+    section .login form button {
+        padding: 0.8rem;
+        font-size: 2rem;
+        border: 0.1rem solid black;
+        border-radius: 1rem;
+        margin-top: 1rem;
+        cursor: pointer;
+
+    }
+
+    .signup-login {
+        display: flex;
+        font-size: 1.5rem;
+        margin-top: 0.8rem;
+    }
+
+    @media(max-width:991px) {
+        html {
+            font-size: 55%;
+        }
+
+        header {
+            padding: 1rem 2rem;
+        }
+
+        section {
+            padding: 2rem;
+        }
+    }
+
+    @media(max-width:772px) {
+        header .icons #menubars {
+            display: inline-block;
+        }
+
+        header .navbar {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 0.1rem solid rgba(0, 0, 0, .2);
+            border-bottom: .1rem solid rgba(0, 0, 0, .2);
+            padding: 1rem;
+            /*clip-path: polygon(0 0,100% 0,100% 0, 0 0);*/
+            display: none;
+            text-align: center;
+        }
+
+        .pagination {
+            top: 96rem;
+        }
+
+        header .navbar a {
+            display: block;
+            padding: 1.5rem;
+            margin: 1rem;
+            font-size: 2rem;
+            background: #eee;
+
+
+        }
+
+        section .login {
+            width: 90%;
+         
+        }
+    }
+</style>
+
+<body>
+    <header>
+        <a href="#" class="logo"></i>Blogging</a>
+        <nav class="navbar" id="navbar">
+            <a href="/">home</a>
+            <a href="/signup">signup</a>
+            <a href="/login">login</a>
+        </nav>
+        <div class="icons">
+            <i class="fas fa-bars" id="menubars" onclick="togglefunction()" onmouseleave="removetoggle()"></i>
+
+        </div>
+    </header>
+    <section>
+        <div class="login">
+            <form action="/loginpost" method="post">
+                <label for="username"> username</label>
+                <input type="text" name="username" placeholder="username">
+                <label for="password">password</label>
+                <input type="text" name="password" placeholder="password">
+                <button type="submit">login</button>
+            </form>
+            <div class="signup-login">
+                <p>dont have an account?</p>
+                <a href="signup">signup here</a>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
