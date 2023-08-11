@@ -572,7 +572,7 @@
             <a href="#featured-blog">featured blog</a>
            
             <a href="/article">write an article</a>
-            <a href="/profile">{{username}}</a>
+            <a href="/username">{{username}}</a>
 
             <a href="/logout">logout</a>
             {{else}}
@@ -661,7 +661,7 @@
         <div class="section-left">
             <h1>Latest Blog</h1>
             {{#each latestArticle}}
-            <a href="/viewarticle/{{this.urlTitle}}">
+            <a href="/{{this.urlTitle}}">
                 <div class="blog" data-aos="slide-up">
                     <div class="blog-img">
                         <img id="img" src="{{this.postimage}}" alt="">
@@ -684,7 +684,7 @@
         <h1>Featured Blog</h1>
         <div class="box-container">
             {{#each featuredArticles}}
-            <a href="/viewarticle/{{this.urlTitle}}">
+            <a href="/{{this.urlTitle}}">
                 <div class="box" data-aos="slide-up">
                     <img id="imgk" src="{{this.postimage}}" alt="">
                     <p>{{this.title}}</p>
