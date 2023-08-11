@@ -492,7 +492,7 @@ app.post("/comment", checkAuth, async (req, res) => {
   }
 });
 
-app.get("/profile", checkAuth, async (req, res) => {
+app.get("/username", checkAuth, async (req, res) => {
   try {
     const user = await User.findOne({ username: req.session.username }).populate({
       path: 'articles',
