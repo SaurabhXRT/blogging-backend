@@ -43,7 +43,7 @@ const checkAuth = (req, res, next) => {
 };
 
 //multer to store image
-const upload = multer({
+/*const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, "public/uploads");
@@ -54,7 +54,24 @@ const upload = multer({
       cb(null, filename, url);
     },
   }),
+});*/
+
+const uploadsPath = path.join(__dirname, 'public/uploads');
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, uploadsPath);
+    },
+    filename: function (req, file, cb) {
+      const filename = Date.now() + path.extname(file.originalname);
+      const url = path.join('/uploads', filename).replace(/\\/g, '/');
+      cb(null, filename, url);
+    },
+  }),
 });
+
+app.use('/uploads', express.static(uploadsPath));
 
 app.use(bodyParser.json());
 //const uri = process.env.MONGO_URL;
