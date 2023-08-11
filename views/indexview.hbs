@@ -475,7 +475,7 @@
     <section>
         <div class="owl-carousel owl-theme">
             {{#each carouselArticles}}
-             <a href="/viewarticle/{{this.urlTitle}}">
+             <a href="/{{this.urlTitle}}">
             <div class="item" style="background-image: url('{{this.postimage}}'); background-size: cover;">
                 <div class="item-title" data-aos="slide-up">
                    
@@ -497,7 +497,7 @@
         <div class="section-left">
             <h1>Latest Blog</h1>
             {{#each latestArticle}}
-             <a href="/viewarticle/{{this.urlTitle}}">
+             <a href="/{{this.urlTitle}}">
             <div class="blog" data-aos="slide-up">
                 <div class="blog-img">
                     <img id="img" src="{{this.postimage}}" alt="">
@@ -520,7 +520,7 @@
         <h1>Featured Blog</h1>
         <div class="box-container">
             {{#each featuredArticles}}
-             <a href="/viewarticle/{{this.urlTitle}}">
+             <a href="/{{this.urlTitle}}">
             <div class="box" data-aos="slide-up">
                 <img id="imgk" src="{{this.postimage}}" alt="">
                 <p>{{this.title}}</p>
