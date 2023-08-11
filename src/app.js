@@ -127,6 +127,26 @@ app.get("/article", checkAuth, (req, res) => {
   res.render("articlewrite");
 });
 
+app.get("/username", checkAuth, async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.session.username }).populate({
+      path: 'articles',
+      populate: { path: 'author', select: 'username' }
+    });
+    
+    if (!user) {
+      return res.status(404).send("User not found.");
+    }
+
+    res.render("profile", { user });
+  } catch (err) {
+    console.log(err);
+    res.send("Error loading profile.");
+  }
+});
+
+
+
 app.get("/", async (req, res) => {
   try {
     const carouselArticles = await Article.find({ category: "education" })
@@ -489,24 +509,6 @@ app.post("/comment", checkAuth, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send("Error adding comment");
-  }
-});
-
-app.get("/username", checkAuth, async (req, res) => {
-  try {
-    const user = await User.findOne({ username: req.session.username }).populate({
-      path: 'articles',
-      populate: { path: 'author', select: 'username' }
-    });
-    
-    if (!user) {
-      return res.status(404).send("User not found.");
-    }
-
-    res.render("profile", { user });
-  } catch (err) {
-    console.log(err);
-    res.send("Error loading profile.");
   }
 });
 
