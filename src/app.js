@@ -218,18 +218,16 @@ app.get("/username", checkAuth, async (req, res) => {
 
 app.get("/", async (req, res) => {
   try {
-    const carouselArticles = await Article.find({ category: "education" })
+   const carouselArticles = await Article.find({ articleCategory: "Carousel" , status: "Approved" })
       .limit(5)
       .populate("author", "username");
 
-    const featuredArticles = await Article.find({
-      category: "technology",
-    })
+    const featuredArticles = await Article.find({ articleCategory: "Featured" , status: "Approved" })
       .sort({ createdAt: -1 })
       .limit(9)
       .populate("author", "username");
 
-    const latestArticle = await Article.find()
+    const latestArticle = await Article.find({ articleCategory: "Normal" , status: "Approved" })
       .sort({ createdAt: -1 })
       .limit(8)
       .populate("author", "username");
