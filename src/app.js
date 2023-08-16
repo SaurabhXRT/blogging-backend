@@ -1,9 +1,12 @@
 const express = require("express");
+const cloudinary = require("cloudinary").v2;
 const app = express();
 const session = require("express-session");
+const fileupload = require('express-fileupload'); 
+app.use(fileupload({useTempFiles: true}));
 const PORT = process.env.PORT || 3000;
 const hbs = require("hbs");
-const multer = require("multer");
+//const multer = require("multer");
 const bodyParser = require("body-parser");
 const path = require("path");
 const dotenv = require("dotenv");
@@ -28,6 +31,12 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+cloudinary.config({
+  cloud_name: "dar4ws6v6",
+  api_key: "131471632671278",
+  api_secret: "d0UW2ogmMnEEMcNVcDpzG33HKkY",
+});
 
 //require('dotenv').config()
 //dotenv.config();
@@ -56,22 +65,6 @@ const checkAuth = (req, res, next) => {
   }),
 });*/
 
-const uploadsPath = path.join(__dirname, 'public/uploads');
-
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, uploadsPath);
-    },
-    filename: function (req, file, cb) {
-      const filename = Date.now() + path.extname(file.originalname);
-      const url = path.join('/uploads', filename).replace(/\\/g, '/');
-      cb(null, filename, url);
-    },
-  }),
-});
-
-app.use('/uploads', express.static(uploadsPath));
 
 app.use(bodyParser.json());
 //const uri = process.env.MONGO_URL;
@@ -143,6 +136,65 @@ app.get("/login", (req, res) => {
 app.get("/article", checkAuth, (req, res) => {
   res.render("articlewrite");
 });
+
+app.post("/articlepost", checkAuth, async (req, res) => {
+
+    try {
+
+      const user = await User.findOne({ username: req.session.username });
+
+      if (!user) {
+        return res.status(404).send("User not found.");
+      }
+       //const image = req.file ? req.file.path : null;
+      //const imageFile = req.files.image;
+      //const file = req.files.image;
+      const file = req.files.image
+
+      const result = await cloudinary.uploader.upload(file.tempFilePath, {
+        folder: "uploads", // You can specify a folder structure if desired
+      });
+
+     /* if (!req.files || !req.files.postimage) {              
+        return res.status(400).json({ error: "Image file is missing." });
+      }*/
+
+     
+
+     /* cloudinary.uploader.upload(
+        imageFile.tempFilePath,
+        async (error, result) => {
+          if (error) {
+            console.error("Error uploading image to Cloudinary:", error);
+            return res.status(500).send("Error uploading image.");
+          }*/
+
+          const postimage = result.secure_url;
+          //const data = await uploadToCloudinary(req.file.path, "articleimages");
+
+          const newArticle = new Article({
+            title: req.body.title,      
+            category: req.body.category, 
+            article: req.body.article,
+            postimage,
+            author: user._id,
+          });
+
+          await newArticle.save();
+          user.articles.push(newArticle._id);
+          await user.save();
+
+          const message =
+            "Your article has been submitted for review. Please wait for verification.";
+          res.json({ message });
+     
+    } catch (err) {
+      console.error("Error posting article:", err);
+      res.send("Error posting article");
+    }
+  }
+);
+
 
 app.get("/username", checkAuth, async (req, res) => {
   try {
@@ -345,42 +397,6 @@ app.get("/logout", (req, res) => {
     res.redirect("/");
   });
 });
-
-app.post(
-  "/articlepost",
-  upload.single("postimage"),
-  checkAuth,
-  async (req, res) => {
-    try {
-      const { title, category, article } = req.body;
-      const postimage = req.file ? "/uploads/" + req.file.filename : null;
-
-      const user = await User.findOne({ username: req.session.username });
-
-      if (!user) {
-        return res.status(404).send("User not found.");
-      }
-      const newArticle = new Article({
-        title,
-        category,
-        article,
-        postimage: postimage,
-        author: user._id,
-      });
-      
-      await newArticle.save();
-      user.articles.push(newArticle._id);
-      await user.save();
-      const message = "Your article has been submitted for review. Please wait for verification.";
-      res.json({ message });
-
-     // res.redirect("/home");
-    } catch (err) {
-      console.log(err);
-      res.send("Error posting article");
-    }
-  }
-);
 
 app.get("/:urlTitle", async (req, res) => {
   try {
