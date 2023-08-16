@@ -84,7 +84,7 @@ db.once("open", function () {
   console.log("we are connected...");
 });
 
-const adminUsername = "saurabhyadav";
+/*const adminUsername = "saurabhyadav";
 const adminPassword = "prince";
 (async () => {
   try {
@@ -114,7 +114,7 @@ const adminPassword = "prince";
   } catch (err) {
     console.error("Error creating admin user:", err);
   }
-})();
+})();*/
 
 app.use(express.static(path.join(__dirname, "../views")));
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
