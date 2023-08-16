@@ -226,12 +226,12 @@ app.get("/", async (req, res) => {
       category: "technology",
     })
       .sort({ createdAt: -1 })
-      .limit(5)
+      .limit(9)
       .populate("author", "username");
 
     const latestArticle = await Article.find()
       .sort({ createdAt: -1 })
-      .limit(5)
+      .limit(8)
       .populate("author", "username");
 
     res.render("indexview", {
@@ -293,12 +293,12 @@ app.get("/home", checkAuth, async (req, res) => {
 
     const featuredArticles = await Article.find({ articleCategory: "Featured" , status: "Approved" })
       .sort({ createdAt: -1 })
-      .limit(6)
+      .limit(9)
       .populate("author", "username");
 
     const latestArticle = await Article.find({ articleCategory: "Normal" , status: "Approved" })
       .sort({ createdAt: -1 })
-      .limit(6)
+      .limit(8)
       .populate("author", "username");
 
     res.render("afterlogin", {
