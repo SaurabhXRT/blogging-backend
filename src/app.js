@@ -172,13 +172,15 @@ app.post("/articlepost", checkAuth, async (req, res) => {
           const postimage = result.secure_url;
           //const data = await uploadToCloudinary(req.file.path, "articleimages");
 
+          const articleContentWithLineBreaks = req.body.article.replace(/\n/g, '<br>');
           const newArticle = new Article({
             title: req.body.title,      
             category: req.body.category, 
-            article: req.body.article,
+            article: `<p>${articleContentWithLineBreaks}</p>`,
             postimage,
             author: user._id,
           });
+
 
           await newArticle.save();
           user.articles.push(newArticle._id);
