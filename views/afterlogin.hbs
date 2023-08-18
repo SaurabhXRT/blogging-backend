@@ -465,7 +465,7 @@
             <h1>Latest Blog</h1>
             {{#each latestArticle}}
              <a href="/{{this.urlTitle}}">
-            <div class="blog" data-aos="slide-up">
+            <div class="blog">
                 <div class="blog-img">
                     <img id="img" src="{{this.postimage}}" alt="">
                 </div>
@@ -488,7 +488,7 @@
         <div class="box-container">
             {{#each featuredArticles}}
              <a href="/{{this.urlTitle}}">
-            <div class="box" data-aos="slide-up">
+            <div class="box" >
                 <img id="imgk" src="{{this.postimage}}" alt="">
                 <p>{{this.title}}</p>
                 <div class="post-detail">
@@ -508,7 +508,7 @@
         <div class="contact">
             <div class="contact-form">
                 <div class="form">
-                    <form action="#" data-aos="slide-up">
+                    <form action="#" >
                         <label for="name"> full name</label>
                         <input type="text" placeholder="full name" required>
                         <label for="email">email</label>
